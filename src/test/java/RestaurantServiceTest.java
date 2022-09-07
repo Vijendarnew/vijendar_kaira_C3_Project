@@ -52,13 +52,13 @@ class RestaurantServiceTest {
 
     @Test
     public void removing_restaurant_that_does_not_exist_should_throw_exception() throws restaurantNotFoundException {
-        assertThrows(restaurantNotFoundException.class, () -> service.removeRestaurant("paradise"));
+        assertThrows(restaurantNotFoundException.class, () -> service.removeRestaurant("Pantry d'or"));
     }
 
     @Test
     public void add_restaurant_should_increase_list_of_restaurants_size_by_1() {
         int initialNumberOfRestaurants = service.getRestaurants().size();
-        service.addRestaurant("Bawarchi", "Hyderbad", LocalTime.parse("12:00:00"), LocalTime.parse("23:00:00"));
+        service.addRestaurant("Bawarchi", "Hyderzbad", LocalTime.parse("12:00:00"), LocalTime.parse("23:00:00"));
         assertEquals(initialNumberOfRestaurants + 1, service.getRestaurants().size());
     }
     //<<<<<<<<<<<<<<<<<<<<ADMIN: ADDING & REMOVING RESTAURANTS>>>>>>>>>>>>>>>>>>>>>>>>>>

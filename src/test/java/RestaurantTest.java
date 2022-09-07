@@ -3,7 +3,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
-
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +28,7 @@ class RestaurantTest {
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time() {
         Restaurant spyRestaurant = Mockito.spy(restaurant);
-        LocalTime testTimeForRestaurantOpen = LocalTime.parse("10:32:00");
+        LocalTime testTimeForRestaurantOpen = LocalTime.parse("10:30:00");
         Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(testTimeForRestaurantOpen);
         assertTrue(spyRestaurant.isRestaurantOpen());
     }
@@ -35,7 +36,7 @@ class RestaurantTest {
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time() {
         Restaurant spyRestaurant = Mockito.spy(restaurant);
-        LocalTime testTimeForRestaurantClose = LocalTime.parse("23:15:00");
+        LocalTime testTimeForRestaurantClose = LocalTime.parse("23:00:00");
         Mockito.when(spyRestaurant.getCurrentTime()).thenReturn(testTimeForRestaurantClose);
         assertFalse(spyRestaurant.isRestaurantOpen());
     }
@@ -52,7 +53,7 @@ class RestaurantTest {
     }
 
     @Test
-    public void removing_item_from_menu_should_decrease_menu_size_by_1() throws  itemNotFoundException {
+    public void removing_item_from_menu_should_decrease_menu_size_by_1() throws itemNotFoundException {
         int initialMenuSize = restaurant.getMenu().size();
         restaurant.removeFromMenu("Vegetable lasagne");
         assertEquals(initialMenuSize - 1, restaurant.getMenu().size());
@@ -63,18 +64,14 @@ class RestaurantTest {
         assertThrows(itemNotFoundException.class,
                 () -> restaurant.removeFromMenu("Biryani"));
     }
-    @Test
-    public void getOrderTotal_should_return_0_if_no_items_are_ordered() {
-        int orderTotal = 6; // Temp, for failing test
-        assertEquals(0, orderTotal);
-    }
-
-    @Test
-    public void getOrderTotal_should_return_correct_total_if_items_are_ordered() {
-        int orderTotal = 5; // Temp, for failing test
-        assertEquals(388, orderTotal);
-    }
-
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>View Total Order Cost<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @Test
+    public void add_items_from_menu_should_show_total_order_cost() {
+        List<String> selectedItems = Arrays.asList("Sweet corn soup", "Vegetable lasagne");
+        int totalOrderCost = restaurant.getTotalOrderCost(selectedItems);
+        assertEquals(388, totalOrderCost);
+    }
+//<<<<<<<<<<<<<<<<<<<<<<<View Total Order Cost>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
